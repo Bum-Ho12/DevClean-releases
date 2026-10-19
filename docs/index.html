@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DevClean</title>
+<meta name="description" content="DevClean frees disk space taken by developer caches and build files on macOS.">
+<style>
+  :root { --bg:#fff; --fg:#1d1d1f; --muted:#6e6e73; --card:#f5f5f7; --line:#d2d2d7; --accent:#0a6cff; --code:#fff; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#111113; --fg:#f5f5f7; --muted:#a1a1a6; --card:#1c1c1f; --line:#2e2e32; --accent:#4d9bff; --code:#0b0b0c; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 56px 20px 72px; }
+  h1 { font-size: 2.4rem; margin: 0 0 8px; letter-spacing: -0.02em; }
+  h2 { font-size: 1.2rem; margin: 40px 0 12px; }
+  p { margin: 0 0 12px; }
+  .lead { font-size: 1.15rem; color: var(--muted); }
+  a { color: var(--accent); }
+  .button { display:inline-block; background:var(--accent); color:#fff; text-decoration:none; padding:10px 18px; border-radius:10px; font-weight:600; }
+  .row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin: 20px 0 8px; }
+  .cmd { display:flex; gap:8px; align-items:stretch; margin: 10px 0; }
+  code, pre { font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  pre { flex:1; margin:0; padding:12px 14px; background:var(--code); border:1px solid var(--line); border-radius:10px; overflow-x:auto; }
+  button { font:inherit; background:var(--card); color:var(--fg); border:1px solid var(--line); border-radius:10px; padding:0 14px; cursor:pointer; }
+  ul { padding-left: 20px; margin: 0; } li { margin: 6px 0; }
+  .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap:12px; }
+  .card { background:var(--card); border-radius:12px; padding:14px 16px; }
+  .card b { display:block; margin-bottom:2px; }
+  .muted { color: var(--muted); font-size: .92rem; }
+  footer { margin-top: 48px; padding-top: 16px; border-top:1px solid var(--line); }
+</style>
+</head>
+<body>
+<main>
+  <h1>DevClean</h1>
+  <p class="lead">Free disk space taken by developer caches and build files on your Mac. It shows what each item uses and deletes only what you tick.</p>
+  <div class="row">
+    <a class="button" id="download" href="https://github.com/Bum-Ho12/DevClean-releases/releases/latest">Download latest release</a>
+    <span class="muted" id="version"></span>
+  </div>
+  <p class="muted">Needs macOS 13 or later. Works on Apple silicon and Intel.</p>
+
+  <h2>Install</h2>
+  <p>Paste this into Terminal. It downloads the latest release, checks it, and installs DevClean to Applications without the macOS "downloaded from the internet" block.</p>
+  <div class="cmd">
+    <pre id="cmd">curl -fsSL https://raw.githubusercontent.com/Bum-Ho12/DevClean-releases/main/scripts/get.sh | bash</pre>
+    <button id="copy" type="button">Copy</button>
+  </div>
+  <p class="muted">Prefer to do it by hand? Download the zip, unzip it and run <code>bash install.sh</code> from the folder. Details are in the <a href="https://github.com/Bum-Ho12/DevClean-releases#install">README</a>.</p>
+
+  <h2>What it cleans</h2>
+  <div class="grid">
+    <div class="card"><b>Xcode</b><span class="muted">DerivedData, iPhone device support files and simulator caches.</span></div>
+    <div class="card"><b>Android &amp; Gradle</b><span class="muted">Unused Gradle versions, daemon logs, the dependency cache and emulator snapshots.</span></div>
+    <div class="card"><b>Your projects</b><span class="muted">Build folders in your Flutter and Android projects, and the Flutter package cache.</span></div>
+    <div class="card"><b>Package managers</b><span class="muted">CocoaPods, Homebrew, npm and Yarn caches, plus the Trash.</span></div>
+  </div>
+
+  <h2>Safe by design</h2>
+  <ul>
+    <li>You review the exact folders before anything is deleted.</li>
+    <li>It never touches source code, SDKs or settings. Everything it removes is rebuilt when a tool needs it.</li>
+    <li>No accounts, no analytics. The only network request is the update check you start yourself.</li>
+  </ul>
+
+  <footer class="muted">
+    <a href="https://github.com/Bum-Ho12/DevClean-releases/releases">Releases</a> ·
+    <a href="https://github.com/Bum-Ho12/DevClean-releases/blob/main/CHANGELOG.md">Release notes</a> ·
+    <a href="https://github.com/Bum-Ho12/DevClean-releases/blob/main/PRIVACY.md">Privacy</a> ·
+    <a href="https://github.com/Bum-Ho12/DevClean-releases/issues">Support</a> ·
+    MIT License
+  </footer>
+</main>
+<script>
+  document.getElementById('copy').onclick = function () {
+    var b = this;
+    navigator.clipboard.writeText(document.getElementById('cmd').textContent).then(function () {
+      b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1500);
+    });
+  };
+  fetch('https://api.github.com/repos/Bum-Ho12/DevClean-releases/releases/latest')
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (rel) {
+      if (!rel) return;
+      var zip = (rel.assets || []).find(function (a) { return /\.zip$/.test(a.name); });
+      if (zip) document.getElementById('download').href = zip.browser_download_url;
+      document.getElementById('version').textContent = rel.tag_name;
+    }).catch(function () {});
+</script>
+</body>
+</html>
