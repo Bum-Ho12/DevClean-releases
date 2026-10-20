@@ -1,7 +1,7 @@
 # DevClean
 
 A small macOS app that frees disk space taken by developer caches and build
-files: Xcode, Gradle and Android, Flutter, CocoaPods, Homebrew and npm.
+files: Xcode, Gradle and Android, Flutter, CocoaPods, Homebrew, npm, pnpm, Cargo, Maven, pip and JetBrains IDEs.
 It shows the size of each item, and deletes only what you tick.
 
 Everything it deletes is a cache or build output that your tools recreate when
@@ -37,12 +37,18 @@ and **Help > Check for Updates…** looks for a newer version when you ask it to
 ## Using it
 
 - **Projects** (top right): the folder that holds your projects. DevClean
-  looks there for build folders and for the Gradle version each project uses.
+  looks there for build folders, dependency folders (`node_modules`, `Pods`, Cargo `target`,
+  SwiftPM `.build`) and for the Gradle version each project uses.
 - Tick what you want to clean and press **Clean**.
 - **Gradle auto-cleanup** makes Gradle delete versions and cache files you
   haven't used for 1–2 weeks by itself, so ~/.gradle stops growing.
-- Unticked by default: the full Gradle cache, the Flutter package cache and
-  the Trash, because cleaning them makes the next build slower or is permanent.
+- **Align Gradle Versions…** (shown when projects use different Gradle versions) moves the
+  projects you tick to one version so the others can be cleaned. It edits each project's
+  `gradle-wrapper.properties`, skips incompatible, pinned or uncommitted ones, and backs the
+  originals up to `~/Library/Application Support/DevClean/Backups`.
+- The menu next to Projects limits build and dependency folders to projects idle for 30, 90 or 180 days.
+- Unticked by default: the full Gradle cache, dependency folders in your projects, the
+  Flutter package cache and the Trash, because cleaning them makes the next build slower or is permanent.
 
 Cleaning the Trash needs Full Disk Access (System Settings → Privacy &
 Security → Full Disk Access). Without it, the Trash row doesn't appear.

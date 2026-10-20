@@ -5,6 +5,15 @@ Each release needs a section headed `## [version] - date`; the release build che
 
 ## [Unreleased]
 
+## [1.4] - 2026-10-20
+
+### Added
+- More caches: Kotlin/Native, Maven, pnpm, Cargo, pip, Gradle-downloaded JDKs, Android SDK index, simulator logs, and caches of older Android Studio versions and JetBrains IDEs. Xcode Archives are listed with a Reveal button and are never deleted by DevClean.
+- Dependency folders in your projects (`node_modules`, `Pods`, Cargo `target`, SwiftPM `.build`, `.next`, `__pycache__`), unticked by default.
+- A project idle filter (30, 90 or 180 days) so build and dependency folders are cleaned only for projects you haven't touched.
+- Gradle report: projects on the larger `-all` download and folders that look like copies of one project.
+- **Align Gradle Versions…** moves projects to one Gradle so the others can be cleaned. It checks the Android Gradle Plugin, skips projects with uncommitted wrapper changes or a pin, and backs up each file it edits.
+
 ## [1.3] - 2026-10-19
 
 ### Changed

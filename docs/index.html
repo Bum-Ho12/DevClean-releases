@@ -52,16 +52,24 @@
 
   <h2>What it cleans</h2>
   <div class="grid">
-    <div class="card"><b>Xcode</b><span class="muted">DerivedData, iPhone device support files and simulator caches.</span></div>
-    <div class="card"><b>Android &amp; Gradle</b><span class="muted">Unused Gradle versions, daemon logs, the dependency cache and emulator snapshots.</span></div>
-    <div class="card"><b>Your projects</b><span class="muted">Build folders in your Flutter and Android projects, and the Flutter package cache.</span></div>
-    <div class="card"><b>Package managers</b><span class="muted">CocoaPods, Homebrew, npm and Yarn caches, plus the Trash.</span></div>
+    <div class="card"><b>Xcode</b><span class="muted">DerivedData, iPhone device support files, simulator caches and logs. Archives are listed, never deleted.</span></div>
+    <div class="card"><b>Android &amp; Gradle</b><span class="muted">Unused Gradle versions, daemon logs, the dependency cache, downloaded JDKs, Kotlin/Native and emulator snapshots.</span></div>
+    <div class="card"><b>Your projects</b><span class="muted">Build folders and dependency folders (node_modules, Pods, Cargo target) in your projects, optionally only for projects idle for 30+ days.</span></div>
+    <div class="card"><b>Package managers</b><span class="muted">CocoaPods, Homebrew, npm, Yarn, pnpm, Maven, Cargo and pip caches, JetBrains and Android Studio caches, plus the Trash.</span></div>
   </div>
+
+  <h2>One Gradle for all your projects</h2>
+  <p>Every project shares one Gradle cache, but each Gradle version it pins is a separate download. When your projects use different versions, <b>Align Gradle Versions…</b> moves the ones you tick to a single version so the rest can be cleaned.</p>
+  <ul>
+    <li>It checks the Android Gradle Plugin and skips projects that need a newer Gradle. Major version jumps are shown in yellow and start unticked.</li>
+    <li>Projects with uncommitted changes to <code>gradle-wrapper.properties</code>, and projects you pin, are left alone.</li>
+    <li>Originals are backed up to <code>~/Library/Application Support/DevClean/Backups</code> before anything is edited.</li>
+  </ul>
 
   <h2>Safe by design</h2>
   <ul>
     <li>You review the exact folders before anything is deleted.</li>
-    <li>It never touches source code, SDKs or settings. Everything it removes is rebuilt when a tool needs it.</li>
+    <li>It never touches source code, SDKs or settings. Everything it removes is rebuilt when a tool needs it. The only project file it edits is the Gradle wrapper file, and only when you use Align Gradle Versions.</li>
     <li>No accounts, no analytics. The only network request is the update check you start yourself.</li>
   </ul>
 
