@@ -33,6 +33,8 @@ Needs macOS 13 or later. Works on Apple silicon and Intel.
 On first launch DevClean shows a short guide. You can reopen it any time from
 **Help > How DevClean Works**. Release notes are under **Help > Release Notes**,
 and **Help > Check for Updates…** looks for a newer version when you ask it to.
+When one is found, **Update Now** runs the installer command in Terminal and reopens
+DevClean; **Copy Command** lets you run it yourself.
 
 ## Using it
 

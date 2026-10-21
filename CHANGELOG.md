@@ -5,6 +5,11 @@ Each release needs a section headed `## [version] - date`; the release build che
 
 ## [Unreleased]
 
+## [1.5] - 2026-10-21
+
+### Changed
+- **Check for Updates** now offers **Update Now**, which runs the installer command in Terminal, and **Copy Command**, instead of sending you to a page with the zip. Update Now closes DevClean, installs the new version and reopens it.
+
 ## [1.4] - 2026-10-20
 
 ### Added
